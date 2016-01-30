@@ -1,0 +1,4 @@
+# Ignore tmp files
+*~
+# Ignore access key
+access_key.csv
