@@ -24,3 +24,13 @@ class twitterTools:
         auth = tweepy.OAuthHandler(APP_KEY, APP_SECRET)
         auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
         self.api = tweepy.API(auth)
+
+    # Convert user information into a string for addition to MySQL database
+    def userToMysql(self,user):
+        # Prepare SQL query to INSERT a record into the database.
+        user.description = user.description.replace("\'", "\\\'")
+        user.location = user.location.replace("\'", "\\\'")
+        mysqlString = "INSERT INTO user(screenName,ID, description, location) VALUES ('%s', %d, '%s', '%s');"\
+          % (user.screen_name, user.id, user.description, user.location )
+        mysqlString = mysqlString.encode('ascii',errors='ignore')
+        return mysqlString

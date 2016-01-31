@@ -1,0 +1,6 @@
+CREATE DATABASE twitterTest;
+USE twitterTest
+CREATE TABLE user (screenName VARCHAR(20), ID BIGINT, description VARCHAR(200), location VARCHAR(50));
+DESCRIBE user;
+SELECT * FROM user;
+drop table user;
