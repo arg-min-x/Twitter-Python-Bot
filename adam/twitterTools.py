@@ -30,7 +30,13 @@ class twitterTools:
         # Prepare SQL query to INSERT a record into the database.
         user.description = user.description.replace("\'", "\\\'")
         user.location = user.location.replace("\'", "\\\'")
-        mysqlString = "INSERT INTO user(screenName,ID, description, location) VALUES ('%s', %d, '%s', '%s');"\
-          % (user.screen_name, user.id, user.description, user.location )
+        user.name = user.name.replace("\'", "\\\'")
+        user.following = int(user.following)
+        user.default_profile = int(user.default_profile)
+        user.verified = int(user.verified)
+        user.follow_request_sent = int(user.follow_request_sent)
+        
+        mysqlString = "INSERT INTO user2(screenName,name,ID, description, location, following, friendsCount, followersCount, favouritesCount, defaultProfile, verified, followRequestSent) VALUES ('%s', '%s', %d, '%s', '%s', %d, %d, %d, %d, %d, %d, %d);"\
+          % (user.screen_name, user.name, user.id, user.description, user.location, user.following, user.friends_count,user.followers_count,user.favourites_count, user.default_profile, user.verified, user.follow_request_sent)
         mysqlString = mysqlString.encode('ascii',errors='ignore')
         return mysqlString

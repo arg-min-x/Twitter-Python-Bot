@@ -1,6 +1,6 @@
 CREATE DATABASE twitterTest;
 USE twitterTest
-CREATE TABLE user (screenName VARCHAR(20), ID BIGINT, description VARCHAR(200), location VARCHAR(50));
+CREATE TABLE user2(screenName VARCHAR(20), name VARCHAR(30), ID BIGINT, description VARCHAR(200), location VARCHAR(50), friend TINYINT(1), following TINYINT(1), friendsCount BIGINT, followersCount BIGINT, favouritesCount BIGINT, defaultProfile TINYINT(1), verified TINYINT(1), followRequestSent TINYINT(1));
 DESCRIBE user;
 SELECT * FROM user;
 drop table user;
