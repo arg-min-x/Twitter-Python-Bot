@@ -18,8 +18,6 @@ cursor = db.cursor()
 
 #for friend in tweepy.Cursor(twitter.api.friends,screen_name = 'CLCShareCloud').items(1):
 for friend in tweepy.Cursor(twitter.api.friends).items():
-    # Process the friend here
-    print friend.created_at
 
     # Prepare SQL query to INSERT a record into the database.
     sql = twitter.userToMysql(friend)
@@ -36,7 +34,7 @@ for friend in tweepy.Cursor(twitter.api.friends).items():
        print sql
 
     print '.'
-    time.sleep(6)
+    #time.sleep(6)
         
 ## disconnect from server
 db.close()

@@ -1,5 +1,6 @@
 import csv
 import tweepy
+from time import localtime, strftime
 
 class twitterTools:
     def __init__(self):
@@ -27,7 +28,7 @@ class twitterTools:
 
     # Convert user information into a string for addition to MySQL database
     def userToMysql(self,user):
-        # Prepare SQL query to INSERT a record into the database.
+        # Prepare SQL string to INSERT a record into the database.
         user.description = user.description.replace("\'", "\\\'")
         user.location = user.location.replace("\'", "\\\'")
         user.name = user.name.replace("\'", "\\\'")
@@ -35,8 +36,12 @@ class twitterTools:
         user.default_profile = int(user.default_profile)
         user.verified = int(user.verified)
         user.follow_request_sent = int(user.follow_request_sent)
+        user.created_at = user.created_at.isoformat()
+        user.created_at = user.created_at.replace('T',' ')
+
+        dateCrawled = strftime("%Y-%m-%d %H:%M:%S", localtime())
         
-        mysqlString = "INSERT INTO user2(screenName,name,ID, description, location, following, friendsCount, followersCount, favouritesCount, defaultProfile, verified, followRequestSent) VALUES ('%s', '%s', %d, '%s', '%s', %d, %d, %d, %d, %d, %d, %d);"\
-          % (user.screen_name, user.name, user.id, user.description, user.location, user.following, user.friends_count,user.followers_count,user.favourites_count, user.default_profile, user.verified, user.follow_request_sent)
+        mysqlString = "INSERT INTO user(screenName,name,ID, description, location, following, friendsCount, followersCount, favouritesCount, defaultProfile, verified, followRequestSent, dateCreated, dateCrawled) VALUES ('%s', '%s', %d, '%s', '%s', %d, %d, %d, %d, %d, %d, %d, '%s', '%s');"\
+          % (user.screen_name, user.name, user.id, user.description, user.location, user.following, user.friends_count,user.followers_count,user.favourites_count, user.default_profile, user.verified, user.follow_request_sent, user.created_at, dateCrawled)
         mysqlString = mysqlString.encode('ascii',errors='ignore')
         return mysqlString
