@@ -1,12 +1,22 @@
 import time
 import warnings
-from twitterTools import *
+from twitterStreamer import *
 
 # supress all warnings
 warnings.filterwarnings("ignore")
 
-twitter = twitterTools()
-twitter.authenticate('access_key.csv')
+# Initialize the stream
+twitter = twitterStreamer()
+
+# Authenticate and start the stream
+twitter._authenticate('access_key.csv')
+twitter._start_stream()
+
+# Define how to use the streamer
+#twitter.stream.filter(track=['python'])
+twitter.stream.filter(locations=[-83.163757,39.866534,-82.832794,40.128491])
+
+
 
 
         
