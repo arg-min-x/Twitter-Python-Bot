@@ -26,6 +26,11 @@ class MyStreamListener(tweepy.StreamListener):
         self.current_hour = re.search('[0-9]*:',str(datetime.now()))
         self.current_hour = re.search('[0-9]*',self.current_hour.group(0))
         self.current_hour = int(self.current_hour.group(0))
+        
+        # Set the current day
+        self.current_day = re.search('[0-9]* ',str(datetime.now()))
+        self.current_day = re.search('[0-9]*',self.current_day.group(0))
+        self.current_day = int(self.current_day.group(0))
     
         # Authenticate the app
         self._authenticate('access_key.csv')
@@ -51,15 +56,39 @@ class MyStreamListener(tweepy.StreamListener):
     # Override the on_status method
     def on_status(self, status):
         
+        # Find the hour
         tweet_hour = re.search('[0-9]*:',str(datetime.now()))
         tweet_hour = re.search('[0-9]*',tweet_hour.group(0))
         tweet_hour = int(tweet_hour.group(0))
         
+        # Find the day
+        tweet_day = re.search('[0-9]* ',str(datetime.now()))
+        tweet_day = re.search('[0-9]*',tweet_day.group(0))
+        tweet_day = int(tweet_day.group(0))
+        
+        # Check the hour
         if (tweet_hour != self.current_hour):
+            
+            # Send out the tweet
             self.api.update_status('The Columbus, OH area has sent {} tweets in the last hour.'.format(self.tweets_per_hour[self.current_hour]))
+            
+            # Update the hour
             self.current_hour = tweet_hour
+            
+            # Check the day and update if needed
+            if (tweet_day != self.current_day):
+                
+                self.current_day = tweet_day
+                
+                # Reset the vector for storing the tweets per hour
+                self.tweets_per_hour = [0 for x in range(24)]
+            
+            # Increment the tweet count
             self.tweets_per_hour[self.current_hour] = self.tweets_per_hour[self.current_hour] + 1
+    
         else:
+            
+            # Increment the tweet count
             self.tweets_per_hour[self.current_hour] = self.tweets_per_hour[self.current_hour] + 1
 
 # Streamer class
