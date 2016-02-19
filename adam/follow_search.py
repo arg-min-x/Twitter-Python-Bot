@@ -12,23 +12,21 @@ twitter.authenticate('access_key.csv')
 # Open database connection
 db = MySQLdb.connect("localhost","root","","twitterTest" )
 
-# prepare a cursor object using cursor() method
-cursor = db.cursor()
-
 #for friend in tweepy.Cursor(twitter.api.friends,screen_name = 'CLCShareCloud').items(1):
 ##for friend in tweepy.Cursor(twitter.api.followers, screen_name = 'taylorswift13').items():
-for friend in tweepy.Cursor(twitter.api.followers).items():
 
+for friend in tweepy.Cursor(twitter.api.followers,page_index = -1).items():
     # check if user ID is already in the databse
     userInDatabase = twitter.isInDatabase(friend.id,db)
     if userInDatabase:
         print "user already in database"
+        print friend.screen_name
     else:
         # Prepare SQL query to INSERT a record into the database.
         twitter.userToMysql(friend,db)
 
     #print '.'
-    time.sleep(5.1)
+    time.sleep(1.1)
         
 ## disconnect from server
 db.close()
