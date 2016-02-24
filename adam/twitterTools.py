@@ -94,3 +94,19 @@ class twitterTools:
         
         return inDatabase
 
+    # Update friend status in the database
+    def updateFollowing(self, ID, isFollowing, database):
+
+        # prepare a cursor object using cursor() method
+        cursor = database.cursor()
+        
+        mysqlString = "UPDATE user2 SET following= %d WHERE id = %d;" %(isFollowing, ID)
+
+        try:
+            # Execute the SQL command
+            cursor.execute(mysqlString)
+        except:
+            print "Error: unable to fecth data"
+
+
+        
