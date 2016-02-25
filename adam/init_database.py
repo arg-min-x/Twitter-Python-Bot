@@ -21,9 +21,6 @@ try:
         twitter.userToMysql(friends,db)
         print friends.screen_name
         time.sleep(5.1)
-
-    # disconnect from server
-    db.close()
     
 except(KeyboardInterrupt):
     # disconnect from server
