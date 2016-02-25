@@ -48,17 +48,18 @@ try:
             followerTimer = Timer(followerTimerLength,timeout)
             followerTimer.start()
             followerCount = 0
-            
+
         # Check if the timer is running for follower reset
         if not followerTimer.isAlive():
             # check to make sure they have followers
             if followers.friends_count > 0:
-                if followers.followers_count/followers.friends_count >= 0.1:
+                if float(followers.followers_count)/float(followers.friends_count) >= 0.1:
                     followers.follow()
-                    twitter.isFollowing(followers.id,1,db)
+                    twitter.updateFollowing(followers.id,1,db)
                     print 'Now following ' + followers.screen_name
                     followerCount += 1
                     currentlyFollowingcount += 1
+                    print currentlyFollowingcount
                     
         # Check if my friend count is too high
         if currentlyFollowingcount >= maxFollowers:
@@ -87,8 +88,10 @@ try:
                 # check if they are following me
                 if not col[1]:
                     # Put unfollow code here for people who aren't following me
+                    # NEED TO FIGURE OUT HOW MANY PEOPLE TO UNFOLLOW
                     print col[0]
                     print col[1]
+            time.sleep(5.1)
 
             currentlyFollowingcount = twitter.api.me().friends_count 
 

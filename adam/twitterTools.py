@@ -119,7 +119,7 @@ class twitterTools:
         # prepare a cursor object using cursor() method
         cursor = database.cursor()
         
-        mysqlString = "UPDATE user2 SET following = %d WHERE id = %d;" %(isFollower, ID)
+        mysqlString = "UPDATE user2 SET following = %d WHERE id = %d;" %(isFollowing, ID)
         mysqlString = mysqlString.encode('ascii',errors='ignore')
 
         try:
