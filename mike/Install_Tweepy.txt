@@ -2,4 +2,6 @@ Installing Tweepy:
 
 sudo pip install --user tweepy
 
+Running the script and logging:
+
 nohup python -u twitter.py > twitter_bot_log.txt 2>&1 &
