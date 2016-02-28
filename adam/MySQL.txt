@@ -1,7 +1,7 @@
 SHOW databases
 CREATE DATABASE twitterTest;
 USE twitterTest
-CREATE TABLE user(screenName VARCHAR(20), name VARCHAR(30), ID BIGINT, description VARCHAR(200), location VARCHAR(50), follower TINYINT(1), following TINYINT(1), friendsCount BIGINT, followersCount BIGINT, favouritesCount BIGINT, defaultProfile TINYINT(1), verified TINYINT(1), followRequestSent TINYINT(1), timezone varchar(30), dateCreated DATETIME, dateCrawled DATETIME);
+CREATE TABLE taylorswift13Followers(screenName VARCHAR(20), name VARCHAR(30), ID BIGINT, description VARCHAR(200), location VARCHAR(50), follower TINYINT(1), following TINYINT(1), friendsCount BIGINT, followersCount BIGINT, favouritesCount BIGINT, defaultProfile TINYINT(1), verified TINYINT(1), followRequestSent TINYINT(1), timezone varchar(30), dateCreated DATETIME, dateCrawled DATETIME, dateFollowed DATETIME, followedInPast TINYINT(1), PRIMARY KEY (ID));
 DESCRIBE user;
 SELECT * FROM user;
 SELECT * FROM user LIMIT 10;
@@ -17,3 +17,6 @@ mysql> SELECT a.id
     -> INNER JOIN user2 b ON a.id = b.id
     -> WHERE a.id <> b.id;
 
+% Create new user
+CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON * . * TO 'newuser'@'localhost';

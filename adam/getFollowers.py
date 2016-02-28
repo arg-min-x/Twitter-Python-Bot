@@ -13,32 +13,29 @@ warnings.filterwarnings("ignore")
 twitter = twitterTools()
 twitter.authenticate('access_key.csv')
 
-# Open database connection
-db = MySQLdb.connect("localhost","root","","twitterTest" )
-
 screenName = 'taylorswift13'
 pageCount = 200
 try:
     for followerPages in tweepy.Cursor(twitter.api.followers,screen_name=screenName,count=pageCount).pages():
         for followers in followerPages:
             # check if user ID is already in the databse
-            userInDatabase = twitter.isInDatabase(followers.id,db)
+            userInDatabase = twitter.isInDatabase(followers.id)
             if userInDatabase:
                 # print "user already in database " + followers.screen_name
                 # Update user information
                 x = 0
             else:
                 # Prepare SQL query to INSERT a record into the database.
-                twitter.userToMysql(followers,db)
+                twitter.userToMysql(followers)
                 # print "user not in database " + followers.screen_name
 
         # Avoid Rate Limts
         time.sleep(61)
 
-    db.close()
+    twitter.closeDb()
 except(KeyboardInterrupt):
     # disconnect from server
-    db.close()
+    twitter.closeDb()
     print "Keyboard interupt detected"
     raise SystemExit
 
