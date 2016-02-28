@@ -10,3 +10,10 @@ select * from user where screenName like 'Carmart_13';
 SELECT  sum(round(((data_length + index_length) / 1024 / 1024), 2))  as "Size in MB" FROM information_schema.TABLES  WHERE table_schema = "twitterTest";
 show warnings;
 show processlist;
+
+% look for duplicates
+mysql> SELECT a.id
+    -> FROM user2 a
+    -> INNER JOIN user2 b ON a.id = b.id
+    -> WHERE a.id <> b.id;
+
