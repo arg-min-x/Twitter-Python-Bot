@@ -1,7 +1,10 @@
 SHOW databases
 CREATE DATABASE twitterTest;
 USE twitterTest
-CREATE TABLE taylorswift13Followers(screenName VARCHAR(20), name VARCHAR(30), ID BIGINT, description VARCHAR(200), location VARCHAR(50), follower TINYINT(1), following TINYINT(1), friendsCount BIGINT, followersCount BIGINT, favouritesCount BIGINT, defaultProfile TINYINT(1), verified TINYINT(1), followRequestSent TINYINT(1), timezone varchar(30), dateCreated DATETIME, dateCrawled DATETIME, dateFollowed DATETIME, followedInPast TINYINT(1), PRIMARY KEY (ID));
+CREATE TABLE taylorswift13Followers(screenName VARCHAR(20), name VARCHAR(30), ID BIGINT, description VARCHAR(200), location VARCHAR(50), follower TINYINT(1), following TINYINT(1), friendsCount BIGINT, followersCount BIGINT, favouritesCount INT, statusesCount INT, defaultProfile TINYINT(1), verified TINYINT(1), geoEnabled TINYINT(1), followRequestSent TINYINT(1), timezone varchar(30), dateCreated DATETIME, dateCrawled DATETIME, dateFollowed DATETIME, followedInPast TINYINT(1), PRIMARY KEY (ID));
+
+CREATE TABLE donaldTrumpFollowers(screenName VARCHAR(20), name VARCHAR(30), ID BIGINT, description VARCHAR(200), location VARCHAR(50), follower TINYINT(1), following TINYINT(1), friendsCount BIGINT, followersCount BIGINT, favouritesCount INT, statusesCount INT, defaultProfile TINYINT(1), verified TINYINT(1), geoEnabled TINYINT(1), followRequestSent TINYINT(1), timezone varchar(30), dateCreated DATETIME, dateCrawled DATETIME, dateFollowed DATETIME, followedInPast TINYINT(1), PRIMARY KEY (ID));
+
 DESCRIBE user;
 SELECT * FROM user;
 SELECT * FROM user LIMIT 10;
@@ -11,12 +14,22 @@ SELECT  sum(round(((data_length + index_length) / 1024 / 1024), 2))  as "Size in
 show warnings;
 show processlist;
 
+update taylorswift13Followers set follower=0;
+
+% count rows in database
+select count(*) from taylorswift13Followers;
+
 % look for duplicates
-mysql> SELECT a.id
-    -> FROM user2 a
-    -> INNER JOIN user2 b ON a.id = b.id
-    -> WHERE a.id <> b.id;
+SELECT a.id
+FROM donaldTrumpFollowers a
+INNER JOIN donaldTrumpFollowers b ON a.id = b.id
+WHERE a.id <> b.id;
 
 % Create new user
 CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON * . * TO 'newuser'@'localhost';
+
+% How to copy a databas.  From a bash Shell
+shell> mysqldump db1 > dump.sql
+shell> mysqladmin create db2
+shell> mysql db2 < dump.sql

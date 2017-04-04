@@ -13,8 +13,8 @@ class twitterTools:
         self.api = 0
 
         # Open database connection
-        self.db = MySQLdb.connect("localhost","adam","","twitterTest" )
-        self.table = "user2"
+        self.db = MySQLdb.connect("localhost","root","","twitter" )
+        self.table = "twitter"
 
     # authenticate to the twitter account with credentials stored in the csv
     # file name "fileName"
@@ -40,6 +40,7 @@ class twitterTools:
         user.name = user.name.replace("\'", "\\\'")
         user.following = int(user.following)
         user.default_profile = int(user.default_profile)
+        user.geo_enabled = int(user.geo_enabled)
         user.verified = int(user.verified)
         user.follow_request_sent = int(user.follow_request_sent)
         user.created_at = user.created_at.isoformat()
@@ -50,14 +51,14 @@ class twitterTools:
         dateCrawled = strftime("%Y-%m-%d %H:%M:%S", localtime())
         
         mysqlString = ("INSERT IGNORE INTO %s(screenName,name,ID, description, location,"
-                       "following, friendsCount, followersCount, favouritesCount, "
-                       "defaultProfile, verified, followRequestSent, timezone, "
+                       "following, friendsCount, followersCount, favouritesCount, statusesCount, "
+                       "defaultProfile, verified, geoEnabled, followRequestSent, timezone, "
                        "dateCreated, dateCrawled) VALUES ('%s', '%s', %d, '%s', "
-                       "'%s', %d, %d, %d, %d, %d, %d, %d, '%s', '%s', '%s');")\
+                       "'%s', %d, %d, %d, %d, %d, %d, %d, %d, %d, '%s', '%s', '%s');")\
                        % (self.table,user.screen_name, user.name, user.id, user.description, \
                           user.location, user.following, user.friends_count,\
-                          user.followers_count,user.favourites_count, user.default_profile,\
-                          user.verified, user.follow_request_sent, user.time_zone,\
+                          user.followers_count,user.favourites_count, user.statuses_count, user.default_profile,\
+                          user.verified, user.geo_enabled, user.follow_request_sent, user.time_zone,\
                           user.created_at, dateCrawled)
         mysqlString = mysqlString.encode('ascii',errors='ignore')
 
@@ -124,7 +125,7 @@ class twitterTools:
         # prepare a cursor object using cursor() method
         cursor = self.db.cursor()
         
-        mysqlString = "UPDATE %s SET following = %d WHERE id = %d;" %(self.table,isFollowing, ID)
+        mysqlString = "UPDATE %s SET following = %d,followedInPast=1,dateFollowed='%s' WHERE id = %d;" %(self.table,isFollowing, strftime("%Y-%m-%d %H:%M:%S", localtime()), ID)
         mysqlString = mysqlString.encode('ascii',errors='ignore')
 
         try:
@@ -136,6 +137,7 @@ class twitterTools:
             # Rollback in case there is any error
             self.db.rollback()
             print mysqlString
+
 
     # Close the database
     def closeDb(self):

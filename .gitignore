@@ -3,6 +3,8 @@
 # Ignore access key
 access_key.csv
 
+*.pyc
+
 mike/twitterTools.pyc
 
 mike/twitterStreamer.pyc
